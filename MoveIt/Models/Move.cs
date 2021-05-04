@@ -12,5 +12,7 @@ namespace MoveIt.Models
         public string Name { get; set; }
         public UserProfile userProfile { get; set; }
         public Location Location { get; set; }
+
+        public int UserId { get; set; }
     }
 }

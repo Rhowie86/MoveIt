@@ -91,6 +91,26 @@ namespace MoveIt.Repositories
             }
         }
 
+        public void Add(Move move)
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"
+                        INSERT INTO Move (Name, UserId)
+                            OUTPUT INSERTED.ID
+                        VALUES (@name, @userId";
+
+                    DbUtils.AddParameter(cmd, "@name", move.Name);
+                    DbUtils.AddParameter(cmd, "@userProfileId", move.UserId);
+
+                    move.Id = (int)cmd.ExecuteScalar();
+
+                }
+            }
+        }
 
 
     }
