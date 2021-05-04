@@ -53,6 +53,44 @@ namespace MoveIt.Repositories
             }
         }
 
+        public Move GetMoveById(int id)
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"SELECT m.Id, m.[Name] AS MoveName, m.userId,
+                                    u.Id AS UserId, u.DisplayName
+                                    From Move m
+                                    JOIN UserProfile u on u.Id = m.UserId
+                                    WHERE m.Id = @id";
+
+                    DbUtils.AddParameter(cmd, "@id", id);
+
+                    var reader = cmd.ExecuteReader();
+
+                    Move move = null;
+                    while (reader.Read())
+                    {
+                        move = new Move()
+                        {
+                            Id = id,
+                            Name = DbUtils.GetString(reader, "MoveName"),
+                            userProfile = new Tabloid.Models.UserProfile()
+                            {
+                                Id = DbUtils.GetInt(reader, "Id"),
+                                DisplayName = DbUtils.GetString(reader, "DisplayName")
+                            }
+                        };
+                    }
+                    reader.Close();
+                    return move;
+                }
+
+            }
+        }
+
 
 
     }

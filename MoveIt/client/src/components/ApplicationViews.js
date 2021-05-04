@@ -9,13 +9,18 @@ import { MoveList } from "./Move/MoveList";
 
 import Login from "./Login/Login";
 import Register from "./Login/Register";
+import Home from "./Home/Home.js";
 
 export default function ApplicationViews() {
-  const { isLoggedIn } = useContext(UserProfileContext);
+  // const { isLoggedIn } = useContext(UserProfileContext);
 
   return (
     <main>
       <Switch>
+        <Route exact path="/">
+          <Home />
+        </Route>
+
         <Route path="/login">
           <Login />
         </Route>

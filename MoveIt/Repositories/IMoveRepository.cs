@@ -6,5 +6,6 @@ namespace MoveIt.Repositories
     public interface IMoveRepository
     {
         List<Move> GetAllMoves();
+        object GetMoveById(int id);
     }
 }
