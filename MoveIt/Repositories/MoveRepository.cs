@@ -112,6 +112,43 @@ namespace MoveIt.Repositories
             }
         }
 
+        public void Update(Move move)
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"
+                                UPDATE Move
+                                    SET Name = @name
+                                    WHERE Id = @id;";
+
+                    DbUtils.AddParameter(cmd, "@id", move.Id);
+                    DbUtils.AddParameter(cmd, "@name", move.Name);
+
+                    cmd.ExecuteNonQuery();
+                    
+                }
+            }
+        }
+
+        public void Delete(int id)
+        {
+            using(var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = "DELETE FROM Move WHERE Id = @id;";
+                    DbUtils.AddParameter(cmd, "@id", id);
+                    cmd.ExecuteNonQuery();
+                }
+            }
+        }
+
+
+
 
     }
 }

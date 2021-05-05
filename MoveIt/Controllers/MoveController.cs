@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using MoveIt.Models;
 using MoveIt.Repositories;
 using System;
 using System.Collections.Generic;
@@ -43,5 +44,32 @@ namespace MoveIt.Controllers
             return Ok(move);
         }
 
+        [HttpPost]
+        public IActionResult Create(Move move)
+        {
+            _moveRepository.Add(move);
+                return CreatedAtAction("Get", new { id = move.Id }, move);
+        }
+
+        [HttpPut("{id}")]
+        public IActionResult Put(int id, Move move)
+        {
+            if(id != move.Id)
+            {
+                return BadRequest();
+            }
+            _moveRepository.Update(move);
+            return NoContent();
+        }
+
+        [HttpDelete("{id}")]
+        public IActionResult Delete(int id)
+        {
+            _moveRepository.Delete(id);
+            return NoContent();
+        }
+
+
     }
+}
 

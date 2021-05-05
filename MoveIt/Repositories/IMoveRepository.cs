@@ -5,7 +5,10 @@ namespace MoveIt.Repositories
 {
     public interface IMoveRepository
     {
+        void Add(Move move);
+        void Delete(int id);
         List<Move> GetAllMoves();
-        object GetMoveById(int id);
+        Move GetMoveById(int id);
+        void Update(Move move);
     }
 }
