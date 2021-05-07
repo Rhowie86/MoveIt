@@ -5,8 +5,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Tabloid.Models;
-
 namespace MoveIt.Repositories
 {
     public class UserProfileRepository : BaseRepository, IUserProfileRepository

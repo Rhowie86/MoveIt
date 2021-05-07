@@ -12,7 +12,7 @@ namespace MoveIt.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
+  
     public class MoveController : ControllerBase
     {
         private readonly IMoveRepository _moveRepository;

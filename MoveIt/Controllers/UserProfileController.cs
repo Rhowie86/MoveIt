@@ -2,7 +2,6 @@
 using MoveIt.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
-using Tabloid.Models;
 using System;
 
 namespace MoveIt.Controllers

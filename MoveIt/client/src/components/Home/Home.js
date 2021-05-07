@@ -27,7 +27,7 @@ export const Home = () => {
               className="home-btn-reg"
               color="secondary"
               onClick={() => {
-                history.push("/newMove");
+                history.push("/move/create");
               }}
             >
               New Move

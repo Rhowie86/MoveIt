@@ -1,29 +1,29 @@
 import React, { useState, useContext } from "react";
-import { UserProfileContext } from "../providers/UserProfileProvider";
+import { UserProfileContext } from "./UserProfileProvider";
 
-export const MoveContext = React.createContext();
+export const LocationContext = React.createContext();
 
-export const MoveProvider = (props) => {
+const LocationProvider = (props) => {
   const { getToken } = useContext(UserProfileContext);
-  const [moves, setMoves] = useState([]);
-  const [move, setMove] = useState([]);
+  const [locations, setLocations] = useState([]);
+  const [location, setLocation] = useState([]);
 
-  const getAllMoves = () => {
+  const getAllLocations = () => {
     return getToken()
       .then((token) =>
-        fetch("/api/move", {
+        fetch("/api/location", {
           method: "GET",
           headers: {
             Authorization: `Bearer ${token}`,
           },
         }).then((res) => res.json())
       )
-      .then(setMoves);
+      .then(setLocations);
   };
 
-  const getMove = (id) => {
+  const getLocation = (id) => {
     return getToken().then((token) =>
-      fetch(`/api/move/${id}`, {
+      fetch(`/api/location/${id}`, {
         method: "GET",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -32,59 +32,57 @@ export const MoveProvider = (props) => {
     );
   };
 
-  const addMove = (move) => {
+  const addLocation = (location) => {
     return getToken().then((token) =>
-      fetch("/api/move", {
+      fetch("/api/location", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify(move),
+        body: JSON.stringify(location),
       })
     );
   };
 
-  const editMove = (move) => {
+  const editLocation = (location) => {
     return getToken().then((token) =>
-      fetch(`/api/move/${move.id}`, {
+      fetch(`/api/location/${location.id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify(move),
+        body: JSON.stringify(location),
       })
     );
   };
 
-  const deleteMove = (id) => {
+  const deleteLocation = (id) => {
     return getToken().then((token) =>
-      fetch(`/api/move/${id}`, {
+      fetch(`/api/location/${id}`, {
         method: "DELETE",
         headers: {
           Authorization: `Bearer ${token}`,
         },
-      }).then(getAllMoves)
+      }).then(getAllLocations)
     );
   };
 
   return (
-    <MoveContext.Provider
+    <LocationContext.Provider
       value={{
-        moves,
-        move,
-        getAllMoves,
-        getMove,
-        addMove,
-        editMove,
-        setMove,
-        setMoves,
-        deleteMove,
+        locations,
+        location,
+        getAllLocations,
+        getLocation,
+        addLocation,
+        editLocation,
+        deleteLocation,
       }}
     >
       {props.children}
-    </MoveContext.Provider>
+    </LocationContext.Provider>
   );
 };
-export default MoveProvider;
+export default LocationProvider;

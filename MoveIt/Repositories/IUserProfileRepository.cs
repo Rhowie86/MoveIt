@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using Tabloid.Models;
+using MoveIt.Models;
 
 namespace MoveIt.Repositories
 {

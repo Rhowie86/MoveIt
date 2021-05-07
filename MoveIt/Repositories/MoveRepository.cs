@@ -21,9 +21,11 @@ namespace MoveIt.Repositories
                 {
                     cmd.CommandText = @"
                                     SELECT m.Id, m.[Name] AS MoveName, m.userId,
-                                    u.Id AS UserId, u.DisplayName
+                                    u.Id AS UserId, u.DisplayName,
+                                    l.Id AS LocationId, l.LocationName
                                     From Move m
                                     JOIN UserProfile u on u.Id = m.UserId
+                                    JOIN Location l on l.Id = m.LocationId
                                     ORDER BY m.[Name] ASC;";
 
 
@@ -36,11 +38,16 @@ namespace MoveIt.Repositories
                         {
                             Id = DbUtils.GetInt(reader, "Id"),
                             Name = DbUtils.GetString(reader, "MoveName"),
-                            userProfile = new Tabloid.Models.UserProfile()
+                            UserProfile = new UserProfile()
                             {
                                 Id = DbUtils.GetInt(reader, "UserId"),
                                 DisplayName = DbUtils.GetString(reader, "DisplayName"),
 
+                            },
+                            Location = new Location()
+                            {
+                                Id = DbUtils.GetInt(reader, "LocationId"),
+                                LocationName = DbUtils.GetString(reader, "LocationName")
                             }
 
                         });
@@ -61,9 +68,11 @@ namespace MoveIt.Repositories
                 using (var cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"SELECT m.Id, m.[Name] AS MoveName, m.userId,
-                                    u.Id AS UserId, u.DisplayName
+                                    u.Id AS UserId, u.DisplayName,
+                                    l.Id AS LocationId, l.LocationName
                                     From Move m
                                     JOIN UserProfile u on u.Id = m.UserId
+                                    JOIN Location l on l.Id = m.LocationId
                                     WHERE m.Id = @id";
 
                     DbUtils.AddParameter(cmd, "@id", id);
@@ -77,10 +86,15 @@ namespace MoveIt.Repositories
                         {
                             Id = id,
                             Name = DbUtils.GetString(reader, "MoveName"),
-                            userProfile = new Tabloid.Models.UserProfile()
+                            UserProfile = new UserProfile()
                             {
-                                Id = DbUtils.GetInt(reader, "Id"),
+                                Id = DbUtils.GetInt(reader, "UserId"),
                                 DisplayName = DbUtils.GetString(reader, "DisplayName")
+                            },
+                            Location = new Location()
+                            {
+                                Id = DbUtils.GetInt(reader, "LocationId"),
+                                LocationName = DbUtils.GetString(reader, "LocationName")
                             }
                         };
                     }
@@ -101,10 +115,10 @@ namespace MoveIt.Repositories
                     cmd.CommandText = @"
                         INSERT INTO Move (Name, UserId)
                             OUTPUT INSERTED.ID
-                        VALUES (@name, @userId";
+                        VALUES (@name, @userId)";
 
                     DbUtils.AddParameter(cmd, "@name", move.Name);
-                    DbUtils.AddParameter(cmd, "@userProfileId", move.UserId);
+                    DbUtils.AddParameter(cmd, "@userId", move.UserId);
 
                     move.Id = (int)cmd.ExecuteScalar();
 

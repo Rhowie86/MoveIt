@@ -1,28 +1,29 @@
 import React, { useContext, useEffect } from "react";
-import { MoveContext } from "../../providers/MoveProvider";
+import { LocationContext } from "../../providers/LocationProvider";
 import { Link } from "react-router-dom";
 import { Button } from "reactstrap";
-import Move from "./Move";
+import Location from "./Location";
 
-export const MoveList = () => {
-  const { moves, getAllMoves } = useContext(MoveContext);
+const LocationList = () => {
+  const { locations, getAllLocations } = useContext(LocationContext);
 
   useEffect(() => {
-    getAllMoves();
+    getAllLocations();
   }, []);
 
   return (
     <div className="container">
+      <p>test</p>
       <div className="row justify-content-center">
         <div className="cards-column">
-          {moves.map((move) => {
-            return <Move key={move.id} move={move} />;
+          {locations.map((location) => {
+            return <Location key={location.id} location={location} />;
           })}
         </div>
       </div>
       <Button>
-        <Link className="a" to={`/move/create/`}>
-          Create New Move
+        <Link className="a" to={`/location/create/`}>
+          Create New Location
         </Link>
       </Button>
       <Button>
@@ -33,4 +34,4 @@ export const MoveList = () => {
     </div>
   );
 };
-export default MoveList;
+export default LocationList;
