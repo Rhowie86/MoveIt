@@ -1,16 +1,21 @@
 import React, { useContext } from "react";
 import { Switch, Route, Redirect } from "react-router-dom";
-import MoveProvider from "../providers/MoveProvider";
-import {
-  UserProfileContext,
-  UserProfileProvider,
-} from "../providers/UserProfileProvider";
+// User Imports
+import { UserProfileContext } from "../providers/UserProfileProvider";
+// Move Imports
 import { MoveList } from "./Move/MoveList";
 import { MoveDetails } from "./Move/MoveDetails";
 import { MoveForm } from "./Move/MoveForm";
 import { MoveDelete } from "./Move/MoveDelete";
-import LocationProvider from "../providers/LocationProvider";
+// Location Imports
+
 import LocationList from "./Location/LocationList";
+// Area Imports
+import AreaList from "./Area/AreaList";
+import AreaDetails from "./Area/AreaDetails";
+import AreaForm from "./Area/AreaForm";
+import AreaDelete from "./Area/AreaDelete";
+
 import Login from "./Login/Login";
 import Register from "./Login/Register";
 import Home from "./Home/Home.js";
@@ -55,6 +60,26 @@ export default function ApplicationViews() {
 
         <Route path="/move/delete/:id(\d+)" exact>
           <MoveDelete />
+        </Route>
+
+        <Route path="/area" exact>
+          <AreaList />
+        </Route>
+
+        <Route path="/area/create" exact>
+          <AreaForm />
+        </Route>
+
+        <Route path="/area/edit/:id(\d+)" exact>
+          <AreaForm />
+        </Route>
+
+        <Route path="/area/:id(\d+)" exact>
+          <AreaDetails />
+        </Route>
+
+        <Route path="area/delete/:id(\d+)" exact>
+          <AreaDelete />
         </Route>
       </Switch>
     </main>

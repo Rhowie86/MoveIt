@@ -9,5 +9,7 @@ namespace MoveIt.Models
     {
         public int Id { get; set; }
         public string AreaName { get; set; }
+
+        public int UserId { get; set; }
     }
 }

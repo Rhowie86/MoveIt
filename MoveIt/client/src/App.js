@@ -5,16 +5,19 @@ import { UserProfileProvider } from "./providers/UserProfileProvider";
 import ApplicationViews from "./components/ApplicationViews";
 import MoveProvider from "./providers/MoveProvider";
 import LocationProvider from "./providers/LocationProvider";
+import AreaProvider from "./providers/AreaProvider";
 
 function App() {
   return (
     <Router>
       <UserProfileProvider>
         <LocationProvider>
-          <MoveProvider>
-            {/* <Header /> */}
-            <ApplicationViews />
-          </MoveProvider>
+          <AreaProvider>
+            <MoveProvider>
+              {/* <Header /> */}
+              <ApplicationViews />
+            </MoveProvider>
+          </AreaProvider>
         </LocationProvider>
       </UserProfileProvider>
     </Router>
