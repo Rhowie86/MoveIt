@@ -78,7 +78,7 @@ export default function ApplicationViews() {
           <AreaDetails />
         </Route>
 
-        <Route path="area/delete/:id(\d+)" exact>
+        <Route path="/area/delete/:id(\d+)" exact>
           <AreaDelete />
         </Route>
       </Switch>

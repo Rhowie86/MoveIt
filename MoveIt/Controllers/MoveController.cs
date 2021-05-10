@@ -6,13 +6,14 @@ using MoveIt.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace MoveIt.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-  
+  [Authorize]
     public class MoveController : ControllerBase
     {
         private readonly IMoveRepository _moveRepository;
@@ -30,7 +31,8 @@ namespace MoveIt.Controllers
 
         public IActionResult Get()
         {
-            return Ok(_moveRepository.GetAllMoves());
+            var currentUser = GetCurrentUser();
+            return Ok(_moveRepository.GetAllMoves(currentUser.Id));
         }
 
         [HttpGet("{id}")]
@@ -47,6 +49,9 @@ namespace MoveIt.Controllers
         [HttpPost]
         public IActionResult Create(Move move)
         {
+            var user = GetCurrentUser();
+
+            move.UserId = user.Id;
             _moveRepository.Add(move);
                 return CreatedAtAction("Get", new { id = move.Id }, move);
         }
@@ -67,6 +72,12 @@ namespace MoveIt.Controllers
         {
             _moveRepository.Delete(id);
             return NoContent();
+        }
+
+        private UserProfile GetCurrentUser()
+        {
+            var firebaseUserId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            return _userProfileRepository.GetByFirebaseUserId(firebaseUserId);
         }
 
 

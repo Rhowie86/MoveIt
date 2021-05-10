@@ -7,7 +7,7 @@ namespace MoveIt.Repositories
     {
         void Add(Move move);
         void Delete(int id);
-        List<Move> GetAllMoves();
+        List<Move> GetAllMoves(int id);
         Move GetMoveById(int id);
         void Update(Move move);
     }

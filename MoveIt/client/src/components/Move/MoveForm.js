@@ -15,20 +15,16 @@ export const MoveForm = () => {
     UserId: 0,
   });
 
-  const userId = JSON.parse(sessionStorage.getItem("userProfile"));
-
   const saveMove = () => {
     // e.preventDefault();
     if (moveId) {
       editMove({
         id: moveId,
         name: move.Name,
-        userId: userId.Id,
       }).then(() => history.push(`/move/${moveId}`));
     } else {
       addMove({
         name: move.Name,
-        userId: userId.id,
       }).then(() => {
         history.push("/move");
       });

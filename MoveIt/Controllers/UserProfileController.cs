@@ -3,6 +3,7 @@ using MoveIt.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using System;
+using System.Security.Claims;
 
 namespace MoveIt.Controllers
 
@@ -55,6 +56,12 @@ namespace MoveIt.Controllers
                 nameof(GetUserProfile),
                 new { firebaseUserId = userProfile.FirebaseUserId },
                 userProfile);
+        }
+
+        private UserProfile GetCurrentUser()
+        {
+            var firebaseUserId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            return _userProfileRepository.GetByFirebaseUserId(firebaseUserId);
         }
     }
 }

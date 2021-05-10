@@ -10,7 +10,6 @@ export const MoveDetails = () => {
 
   useEffect(() => {
     getMove(id).then(setMove);
-    console.log(move);
   }, []);
 
   return (
@@ -22,7 +21,6 @@ export const MoveDetails = () => {
             <p>
               <strong>{move.name}</strong>
             </p>
-            <p>{move.location.locationName}</p>
           </CardBody>
           <Button className="b">
             <Link className="a" to={`/move/edit/${move.id}`}>

@@ -17,7 +17,7 @@ export const AreaDetails = () => {
       <Card className="m-4">
         <CardBody>
           <p>
-            <strong>{area.areaName}</strong>
+            <strong>{area.AreaName}</strong>
           </p>
 
           {/* Item List May Go Here */}

@@ -12,7 +12,7 @@ namespace MoveIt.Repositories
     {
         public MoveRepository(IConfiguration configuration) : base(configuration) { }
 
-        public List<Move> GetAllMoves()
+        public List<Move> GetAllMoves(int userProfileId)
         {
             using (var conn = Connection)
             {
@@ -21,15 +21,16 @@ namespace MoveIt.Repositories
                 {
                     cmd.CommandText = @"
                                     SELECT m.Id, m.[Name] AS MoveName, m.userId,
-                                    u.Id AS UserId, u.DisplayName,
-                                    l.Id AS LocationId, l.LocationName
+                                    u.Id AS UserId, u.DisplayName
+                                    
                                     From Move m
-                                    JOIN UserProfile u on u.Id = m.UserId
-                                    JOIN Location l on l.Id = m.LocationId
+                                    LEFT JOIN UserProfile u on u.Id = m.UserId
+                                    
+                                    WHERE u.Id = @userProfileId
                                     ORDER BY m.[Name] ASC;";
 
 
-
+                    cmd.Parameters.AddWithValue("@userProfileId", userProfileId);
                     var reader = cmd.ExecuteReader();
                     var moves = new List<Move>();
                     while (reader.Read()) 
@@ -44,11 +45,7 @@ namespace MoveIt.Repositories
                                 DisplayName = DbUtils.GetString(reader, "DisplayName"),
 
                             },
-                            Location = new Location()
-                            {
-                                Id = DbUtils.GetInt(reader, "LocationId"),
-                                LocationName = DbUtils.GetString(reader, "LocationName")
-                            }
+                            
 
                         });
                     }
@@ -68,11 +65,11 @@ namespace MoveIt.Repositories
                 using (var cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"SELECT m.Id, m.[Name] AS MoveName, m.userId,
-                                    u.Id AS UserId, u.DisplayName,
-                                    l.Id AS LocationId, l.LocationName
+                                    u.Id AS UserId, u.DisplayName
+                                    
                                     From Move m
-                                    JOIN UserProfile u on u.Id = m.UserId
-                                    JOIN Location l on l.Id = m.LocationId
+                                    LEFT JOIN UserProfile u on u.Id = m.UserId
+                                    
                                     WHERE m.Id = @id";
 
                     DbUtils.AddParameter(cmd, "@id", id);
@@ -91,11 +88,7 @@ namespace MoveIt.Repositories
                                 Id = DbUtils.GetInt(reader, "UserId"),
                                 DisplayName = DbUtils.GetString(reader, "DisplayName")
                             },
-                            Location = new Location()
-                            {
-                                Id = DbUtils.GetInt(reader, "LocationId"),
-                                LocationName = DbUtils.GetString(reader, "LocationName")
-                            }
+                          
                         };
                     }
                     reader.Close();
@@ -115,7 +108,7 @@ namespace MoveIt.Repositories
                     cmd.CommandText = @"
                         INSERT INTO Move (Name, UserId)
                             OUTPUT INSERTED.ID
-                        VALUES (@name, @userId)";
+                        VALUES (@name, @userId);";
 
                     DbUtils.AddParameter(cmd, "@name", move.Name);
                     DbUtils.AddParameter(cmd, "@userId", move.UserId);

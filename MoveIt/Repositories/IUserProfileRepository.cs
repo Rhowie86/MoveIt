@@ -9,5 +9,6 @@ namespace MoveIt.Repositories
         List<UserProfile> GetAllUserProfiles();
         UserProfile GetByFirebaseUserId(string firebaseUserId);
         UserProfile GetById(int id);
+
     }
 }
