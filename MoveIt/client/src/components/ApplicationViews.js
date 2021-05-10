@@ -15,6 +15,11 @@ import AreaList from "./Area/AreaList";
 import AreaDetails from "./Area/AreaDetails";
 import AreaForm from "./Area/AreaForm";
 import AreaDelete from "./Area/AreaDelete";
+// Priority Imports
+import PriorityList from "./Priority/PriorityList";
+import PriorityDetails from "./Priority/PriorityDetails";
+import PriorityForm from "./Priority/PriorityDetails";
+import PriorityDelete from "./Priority/PriorityDelete";
 
 import Login from "./Login/Login";
 import Register from "./Login/Register";
@@ -80,6 +85,26 @@ export default function ApplicationViews() {
 
         <Route path="/area/delete/:id(\d+)" exact>
           <AreaDelete />
+        </Route>
+
+        <Route path="/priority" exact>
+          <PriorityList />
+        </Route>
+
+        <Route path="/priority/create" exact>
+          <PriorityForm />
+        </Route>
+
+        <Route path="/priority/edit/:id(\d+)" exact>
+          <PriorityForm />
+        </Route>
+
+        <Route path="/priority/:id(\d+)" exact>
+          <PriorityDetails />
+        </Route>
+
+        <Route path="/priority/delete/:id(\d+)" exact>
+          <PriorityDelete />
         </Route>
       </Switch>
     </main>

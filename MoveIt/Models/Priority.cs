@@ -9,5 +9,6 @@ namespace MoveIt.Models
     {
         public int Id { get; set; }
         public string Label { get; set; }
+        public int UserId { get; set; }
     }
 }
