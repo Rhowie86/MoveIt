@@ -23,6 +23,11 @@ export const MoveDetails = () => {
             </p>
           </CardBody>
           <Button className="b">
+            <Link className="a" to={`/item/${move.id}`}>
+              Items on this move
+            </Link>
+          </Button>
+          <Button className="b">
             <Link className="a" to={`/move/edit/${move.id}`}>
               Edit
             </Link>
@@ -33,8 +38,13 @@ export const MoveDetails = () => {
             </Link>
           </Button>
           <Button className="b">
+            <Link className="a" to={`/item/${move.id}`}>
+              Go Back To Move
+            </Link>
+          </Button>
+          <Button className="b">
             <Link className="a" to={`/move`}>
-              Go Back
+              Go Home
             </Link>
           </Button>
         </Card>

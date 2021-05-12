@@ -1,28 +1,28 @@
 import React, { useContext, useEffect } from "react";
-import { AreaContext } from "../../providers/AreaProvider";
+import { BoxContext } from "../../providers/BoxProvider";
 import { Link } from "react-router-dom";
 import { Button } from "reactstrap";
-import Area from "./Area";
+import Box from "./Box";
 
-const AreaList = () => {
-  const { areas, getAllAreas } = useContext(AreaContext);
+const BoxList = () => {
+  const { boxes, getAllBoxes } = useContext(BoxContext);
 
   useEffect(() => {
-    getAllAreas();
+    getAllBoxes();
   }, []);
 
   return (
     <div className="container">
       <div className="row justify-content-center">
         <div className="cards-column">
-          {areas.map((area) => {
-            return <Area key={area.id} area={area} />;
+          {boxes.map((box) => {
+            return <Box key={box.id} box={Box} />;
           })}
         </div>
       </div>
       <Button>
-        <Link className="a" to={`/area/create/`}>
-          Create New Area Label
+        <Link className="a" to={`/box/create/`}>
+          Create New Box
         </Link>
       </Button>
       <Button>
@@ -33,4 +33,4 @@ const AreaList = () => {
     </div>
   );
 };
-export default AreaList;
+export default BoxList;

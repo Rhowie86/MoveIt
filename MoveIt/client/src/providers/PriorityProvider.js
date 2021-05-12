@@ -9,16 +9,14 @@ const PriorityProvider = (props) => {
   const [priority, setPriority] = useState([]);
 
   const getAllPriorities = () => {
-    return getToken()
-      .then((token) =>
-        fetch("/api/priority", {
-          method: "GET",
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }).then((res) => res.json())
-      )
-      .then(setPriorities);
+    return getToken().then((token) =>
+      fetch("/api/priority", {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }).then((res) => res.json())
+    );
   };
 
   const getPriority = (id) => {

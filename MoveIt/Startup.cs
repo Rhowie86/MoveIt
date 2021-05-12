@@ -28,6 +28,9 @@ namespace MoveIt
             services.AddTransient<IMoveRepository, MoveRepository>();
             services.AddTransient<ILocationRepository, LocationRepository>();
             services.AddTransient<IAreaRepository, AreaRepository>();
+            services.AddTransient<IPriorityRepository, PriorityRepository>();
+            services.AddTransient<IBoxRepository, BoxRepository>();
+            services.AddTransient<IItemRepository, ItemRepository>();
 
             var firebaseProjectId = Configuration.GetValue<string>("FirebaseProjectId");
             var googleTokenUrl = $"https://securetoken.google.com/{firebaseProjectId}";

@@ -6,6 +6,9 @@ import ApplicationViews from "./components/ApplicationViews";
 import MoveProvider from "./providers/MoveProvider";
 import LocationProvider from "./providers/LocationProvider";
 import AreaProvider from "./providers/AreaProvider";
+import BoxProvider from "./providers/BoxProvider";
+import ItemProvider from "./providers/ItemProvider";
+import PriorityProvider from "./providers/PriorityProvider";
 
 function App() {
   return (
@@ -13,10 +16,16 @@ function App() {
       <UserProfileProvider>
         <LocationProvider>
           <AreaProvider>
-            <MoveProvider>
-              {/* <Header /> */}
-              <ApplicationViews />
-            </MoveProvider>
+            <PriorityProvider>
+              <BoxProvider>
+                <MoveProvider>
+                  <ItemProvider>
+                    {/* <Header /> */}
+                    <ApplicationViews />
+                  </ItemProvider>
+                </MoveProvider>
+              </BoxProvider>
+            </PriorityProvider>
           </AreaProvider>
         </LocationProvider>
       </UserProfileProvider>

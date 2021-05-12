@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
 using MoveIt.Models;
@@ -35,6 +36,33 @@ namespace MoveIt.Repositories
                     }
                     reader.Close();
                     return areas;
+                }
+            }
+        }
+
+        public Area GetAreaByUser( int id)
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"SELECT a.AreaName, a.userId FROM Area a LEFT JOIN UserProfile u ON u.id = a.userId WHERE a.userId = @userId;";
+                    DbUtils.AddParameter(cmd, "@userId", id);
+
+                    var reader = cmd.ExecuteReader();
+
+                    Area area = null;
+                    while (reader.Read())
+                    {
+                        area = new Area()
+                        {
+                            
+                            AreaName = DbUtils.GetString(reader, "AreaName")
+                        };
+                    }
+                    reader.Close();
+                    return area;
                 }
             }
         }
@@ -125,6 +153,7 @@ namespace MoveIt.Repositories
                 }
             }
         }
+   
     }
 }
 

@@ -9,6 +9,8 @@ namespace MoveIt.Models
     {
         public int Id { get; set; }
         public string BoxName { get; set; }
+        public Move move { get; set; }
+
         public int MoveId { get; set; }
 
         public Item Item { get; set; }

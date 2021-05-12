@@ -1,16 +1,16 @@
 import React, { useState, useContext } from "react";
 import { UserProfileContext } from "./UserProfileProvider";
 
-export const AreaContext = React.createContext();
+export const BoxContext = React.createContext();
 
-const AreaProvider = (props) => {
+const BoxProvider = (props) => {
   const { getToken } = useContext(UserProfileContext);
-  const [areas, setAreas] = useState([]);
-  const [area, setArea] = useState([]);
+  const [boxes, setBoxes] = useState([]);
+  const [box, setBox] = useState([]);
 
-  const getAllAreas = () => {
+  const getAllBoxes = (id) => {
     return getToken().then((token) =>
-      fetch("/api/area", {
+      fetch(`/api/box/${id}`, {
         method: "GET",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -19,9 +19,9 @@ const AreaProvider = (props) => {
     );
   };
 
-  const getAreaByUser = (userId) => {
+  const getBox = (id) => {
     return getToken().then((token) =>
-      fetch(`/api/area/${userId}`, {
+      fetch(`/api/box/${id}`, {
         method: "GET",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -30,71 +30,59 @@ const AreaProvider = (props) => {
     );
   };
 
-  const getArea = (id) => {
+  const addBox = (box) => {
     return getToken().then((token) =>
-      fetch(`/api/area/${id}`, {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }).then((res) => res.json())
-    );
-  };
-
-  const addArea = (area) => {
-    return getToken().then((token) =>
-      fetch("/api/area", {
+      fetch("/api/box", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify(area),
+        body: JSON.stringify(box),
       })
     );
   };
 
-  const editArea = (area) => {
+  const editBox = (box) => {
     return getToken().then((token) =>
-      fetch(`/api/area/${area.id}`, {
+      fetch(`/api/box/${box.id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify(area),
+        body: JSON.stringify(box),
       })
     );
   };
 
-  const deleteArea = (id) => {
+  const deleteBox = (id) => {
     return getToken().then((token) =>
-      fetch(`/api/area/${id}`, {
+      fetch(`/api/box/${id}`, {
         method: "DELETE",
         headers: {
           Authorization: `Bearer ${token}`,
         },
-      }).then(getAllAreas)
+      }).then(getAllBoxes)
     );
   };
 
   return (
-    <AreaContext.Provider
+    <BoxContext.Provider
       value={{
-        areas,
-        area,
-        setAreas,
-        setArea,
-        getAllAreas,
-        getAreaByUser,
-        getArea,
-        addArea,
-        editArea,
-        deleteArea,
+        boxes,
+        box,
+        setBoxes,
+        setBox,
+        getAllBoxes,
+        getBox,
+        addBox,
+        editBox,
+        deleteBox,
       }}
     >
       {props.children}
-    </AreaContext.Provider>
+    </BoxContext.Provider>
   );
 };
-export default AreaProvider;
+export default BoxProvider;

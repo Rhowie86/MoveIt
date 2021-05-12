@@ -122,5 +122,10 @@ namespace MoveIt.Utils
                 cmd.Parameters.AddWithValue(name, value);
             }
         }
+
+        public static bool GetBoolean(SqlDataReader reader, string column)
+        {
+            return reader.GetBoolean(reader.GetOrdinal(column));
+        }
     }
 }

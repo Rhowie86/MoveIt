@@ -5,6 +5,7 @@ using System;
 
 using MoveIt.Models;
 using MoveIt.Repositories;
+using System.Security.Claims;
 
 namespace MoveIt.Controllers
 {
@@ -14,17 +15,30 @@ namespace MoveIt.Controllers
     public class AreaController : ControllerBase
     {
         private readonly IAreaRepository _areaRepository;
+        private readonly IUserProfileRepository _userProfileRepository;
 
         public AreaController(
-            IAreaRepository areaRepository)
+            IAreaRepository areaRepository, IUserProfileRepository userProfileRepository)
         {
             _areaRepository = areaRepository;
+            _userProfileRepository = userProfileRepository;
         }
 
         [HttpGet]
         public IActionResult Get()
         {
             return Ok(_areaRepository.GetAllAreas());
+        }
+
+        [HttpGet("{userId}")]
+        public IActionResult GetByUser(int userId)
+        {
+            var area = _areaRepository.GetAreaByUser(userId);
+            if ( area == null)
+            {
+                return NotFound();
+            }
+            return Ok(area);
         }
 
         [HttpGet("{id}")]
@@ -62,6 +76,12 @@ namespace MoveIt.Controllers
             _areaRepository.Delete(id);
             return NoContent();
         }
+    private UserProfile GetCurrentUser()
+    {
+        var firebaseUserId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+        return _userProfileRepository.GetByFirebaseUserId(firebaseUserId);
     }
+    }
+
 
 }

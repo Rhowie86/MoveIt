@@ -12,57 +12,57 @@ namespace MoveIt.Controllers
     [Route("api/[controller]")]
     [ApiController]
 
-    public class PriorityController : ControllerBase
+    public class BoxController : ControllerBase
     {
-        private readonly IPriorityRepository _priorityRepository;
+        private readonly IBoxRepository _boxRepository;
         private readonly IUserProfileRepository _userProfileRepository;
 
-        public PriorityController(
-            IPriorityRepository priorityRepository, IUserProfileRepository userProfileRepository)
+        public BoxController(
+            IBoxRepository boxRepository, IUserProfileRepository userProfileRepository)
         {
-            _priorityRepository = priorityRepository;
+            _boxRepository = boxRepository;
             _userProfileRepository = userProfileRepository;
-        }
-
-        [HttpGet]
-        public IActionResult Get()
-        {
-            return Ok(_priorityRepository.GetAllPriorities());
         }
 
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
-            var priority = _priorityRepository.GetPriorityById(id);
-            if (priority == null)
+            return Ok(_boxRepository.GetAllBoxesByMoveId(id));
+        }
+
+        [HttpGet("/boxId/{boxId}")]
+        public IActionResult GetByBoxId(int boxId)
+        {
+            var box = _boxRepository.GetBoxById(boxId);
+            if (box == null)
             {
                 return NotFound();
             }
-            return Ok(priority);
+            return Ok(box);
         }
 
         [HttpPost]
-        public IActionResult Create(Priority priority)
+        public IActionResult Create(Box box)
         {
-            _priorityRepository.Add(priority);
-            return CreatedAtAction("Get", new { id = priority.Id }, priority);
+            _boxRepository.Add(box);
+            return CreatedAtAction("Get", new { id = box.Id }, box);
         }
 
         [HttpPut("{id}")]
-        public IActionResult Put(int id, Priority priority)
+        public IActionResult Put(int id, Box box)
         {
-            if (id != priority.Id)
+            if (id != box.Id)
             {
                 return BadRequest();
             }
-            _priorityRepository.Update(priority);
+            _boxRepository.Update(box);
             return NoContent();
         }
 
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
-            _priorityRepository.Delete(id);
+            _boxRepository.Delete(id);
             return NoContent();
         }
         private UserProfile GetCurrentUser()
