@@ -19,8 +19,6 @@ export const AreaDetails = () => {
           <p>
             <strong>{area.AreaName}</strong>
           </p>
-
-          {/* Item List May Go Here */}
         </CardBody>
         <Button className="b">
           <Link className="a" to={`/area/edit/${area.id}`}>

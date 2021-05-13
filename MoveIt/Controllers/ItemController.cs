@@ -15,6 +15,7 @@ namespace MoveIt.Controllers
     [ApiController]
     
     
+    
     public class ItemController : ControllerBase
     {
         private readonly IMoveRepository _moveRepository;
@@ -45,6 +46,7 @@ namespace MoveIt.Controllers
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
+            
             var move = _moveRepository.GetMoveById(id);
             var listItems =_itemRepository.GetAllItemsByMoveId(move.Id);
             if (move == null)
@@ -54,9 +56,24 @@ namespace MoveIt.Controllers
             return Ok(listItems);
         }
 
+
+        [HttpGet("box/{boxId}")]
+        public IActionResult GetByBox(int boxId)
+        {
+
+            var box = _boxRepository.GetBoxById(boxId);
+            var listItems = _itemRepository.GetItemByBoxId(box.Id);
+            if (box == null)
+            {
+                return NotFound();
+            }
+            return Ok(listItems);
+        }
+
         [HttpPost]
         public IActionResult Create(Item item)
         {
+            
             var user = GetCurrentUser();
 
             item.UserId = user.Id;

@@ -1,8 +1,19 @@
-import React from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { Card, CardImg, CardBody, Button } from "reactstrap";
 import { Link } from "react-router-dom";
+import { ItemContext } from "../../providers/ItemProvider";
 
 export const Box = ({ box }) => {
+  //   const [boxItems, setBoxItems] = useState(box.boxId);
+  const { items, setItems, getBoxItems } = useContext(ItemContext);
+
+  useEffect(() => {
+    getBoxItems(box.id).then(setItems);
+  }, []);
+  useEffect(() => {
+    console.log(box.id);
+  }, []);
+
   return (
     <>
       <Card className="m-4">
@@ -10,13 +21,14 @@ export const Box = ({ box }) => {
           <p>
             <strong>{box.boxName}</strong>
           </p>
+          <div></div>
           <Button>
             <Link className="a" to={`/box/edit/${box.id}`}>
               Edit Box Label
             </Link>
           </Button>
           <Button>
-            <Link className="a" to={`/box/delete/${box.id}`}>
+            <Link className="a" to={`/box/delete/${box.id}/${box.moveId}`}>
               Delete Box
             </Link>
           </Button>

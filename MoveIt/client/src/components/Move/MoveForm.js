@@ -13,6 +13,7 @@ export const MoveForm = () => {
     Id: "",
     Name: "",
     UserId: 0,
+    locationName: "",
   });
 
   const saveMove = () => {
@@ -21,10 +22,12 @@ export const MoveForm = () => {
       editMove({
         id: moveId,
         name: move.Name,
+        locationName: move.locationName,
       }).then(() => history.push(`/move/${moveId}`));
     } else {
       addMove({
         name: move.Name,
+        locationName: move.locationName,
       }).then(() => {
         history.push("/move");
       });
@@ -69,6 +72,13 @@ export const MoveForm = () => {
           <Input
             id="Name"
             placeholder="Enter Move Name"
+            type="text"
+            onChange={handleInputChange}
+          ></Input>
+          <Label for="moveInput">Location</Label>
+          <Input
+            id="LocationName"
+            placeholder="Enter Location Name"
             type="text"
             onChange={handleInputChange}
           ></Input>

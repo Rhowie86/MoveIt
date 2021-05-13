@@ -9,7 +9,7 @@ namespace MoveIt.Repositories
         void Delete(int id);
         List<Area> GetAllAreas();
         Area GetAreaById(int id);
-        Area GetAreaByUser(int id);
+        List<Area> GetAreaByUser(int id);
         void Update(Area area);
     }
 }

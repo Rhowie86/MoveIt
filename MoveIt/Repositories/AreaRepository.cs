@@ -40,29 +40,33 @@ namespace MoveIt.Repositories
             }
         }
 
-        public Area GetAreaByUser( int id)
+        public List<Area> GetAreaByUser( int id)
         {
             using (var conn = Connection)
             {
                 conn.Open();
                 using (var cmd = conn.CreateCommand())
                 {
-                    cmd.CommandText = @"SELECT a.AreaName, a.userId FROM Area a LEFT JOIN UserProfile u ON u.id = a.userId WHERE a.userId = @userId;";
+                    cmd.CommandText = @"SELECT a.Id, a.AreaName, a.userId FROM Area a LEFT JOIN UserProfile u ON u.id = a.userId WHERE a.userId = @userId;";
                     DbUtils.AddParameter(cmd, "@userId", id);
 
                     var reader = cmd.ExecuteReader();
 
-                    Area area = null;
+                    List<Area> areas = new List<Area>();
                     while (reader.Read())
                     {
-                        area = new Area()
+                        Area area = new Area()
                         {
-                            
-                            AreaName = DbUtils.GetString(reader, "AreaName")
+                            Id = DbUtils.GetInt(reader, "Id"),
+                            AreaName = DbUtils.GetString(reader, "AreaName"),
+                            UserId = DbUtils.GetInt(reader, "UserId")
+
+
                         };
-                    }
+                        areas.Add(area);
+                    }  
                     reader.Close();
-                    return area;
+                    return areas;
                 }
             }
         }

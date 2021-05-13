@@ -19,9 +19,9 @@ const AreaProvider = (props) => {
     );
   };
 
-  const getAreaByUser = (userId) => {
+  const getAreaByUser = () => {
     return getToken().then((token) =>
-      fetch(`/api/area/${userId}`, {
+      fetch(`/api/area/getAreaByUserId`, {
         method: "GET",
         headers: {
           Authorization: `Bearer ${token}`,

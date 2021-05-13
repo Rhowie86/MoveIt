@@ -3,8 +3,8 @@ import { Form, Label, Input, Button } from "reactstrap";
 import { AreaContext } from "../../providers/AreaProvider";
 import { useHistory, useParams } from "react-router-dom";
 
-export const AreaForm = () => {
-  const { addArea, editArea, getArea } = useContext(AreaContext);
+export const AreaForm = ({ visibility, setAreas }) => {
+  const { addArea, editArea, getArea, getAllAreas } = useContext(AreaContext);
 
   const history = useHistory();
   const areaId = parseInt(useParams().id);
@@ -17,20 +17,15 @@ export const AreaForm = () => {
   const userId = JSON.parse(sessionStorage.getItem("userProfile"));
 
   const saveArea = () => {
-    if (areaId) {
-      editArea({
-        id: areaId,
-        AreaName: area.areaName,
-        UserId: userId.Id,
-      }).then(() => history.push(`/area/${areaId}`));
-    } else {
-      addArea({
-        AreaName: area.areaName,
-        UserId: userId.id,
-      }).then(() => {
-        history.push("/area");
+    addArea({
+      AreaName: area.areaName,
+      UserId: userId.id,
+    }).then(() => {
+      getAllAreas().then((parsedAreas) => {
+        setAreas(parsedAreas);
+        visibility(false);
       });
-    }
+    });
   };
 
   const handleInputChange = (event) => {
@@ -52,22 +47,12 @@ export const AreaForm = () => {
     }
   };
 
-  useEffect(() => {
-    if (areaId) {
-      getArea(areaId).then((area) => {
-        setArea(area);
-      });
-    }
-  }, []);
-
   return (
     <>
       <div>
         <Form className="addAreaDiv" onSubmit={handleClickSaveArea}>
-          <h3 className="areaForm_title">
-            {areaId ? <> Edit Area Label </> : <> New Area Label </>}
-          </h3>
-          <Label for="areaInput">New Area Label</Label>
+          <h3 className="areaForm_title">Add Area Label</h3>
+
           <Input
             id="areaName"
             placeholder="Enter Area Label"

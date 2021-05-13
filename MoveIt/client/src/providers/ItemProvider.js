@@ -9,16 +9,25 @@ const ItemProvider = (props) => {
   const [item, setItem] = useState([]);
 
   const getAllItems = (id) => {
-    return getToken()
-      .then((token) =>
-        fetch(`/api/item/${id}`, {
-          method: "GET",
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }).then((res) => res.json())
-      )
-      .then(setItems);
+    return getToken().then((token) =>
+      fetch(`/api/item/${id}`, {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }).then((res) => res.json())
+    );
+  };
+
+  const getBoxItems = (id) => {
+    return getToken().then((token) =>
+      fetch(`/api/item/box/${id}`, {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }).then((res) => res.json())
+    );
   };
 
   const getItem = (id) => {
@@ -77,6 +86,7 @@ const ItemProvider = (props) => {
         setItems,
         setItem,
         getAllItems,
+        getBoxItems,
         getItem,
         addItem,
         editItem,

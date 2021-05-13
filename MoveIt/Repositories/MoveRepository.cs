@@ -83,6 +83,7 @@ namespace MoveIt.Repositories
                         {
                             Id = id,
                             Name = DbUtils.GetString(reader, "MoveName"),
+                            UserId = DbUtils.GetInt(reader, "UserId"),
                             UserProfile = new UserProfile()
                             {
                                 Id = DbUtils.GetInt(reader, "UserId"),

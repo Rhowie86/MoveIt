@@ -3,12 +3,14 @@ import { BoxContext } from "../../providers/BoxProvider";
 import { Link } from "react-router-dom";
 import { Button } from "reactstrap";
 import Box from "./Box";
+import { useParams } from "react-router-dom";
 
 const BoxList = () => {
-  const { boxes, getAllBoxes } = useContext(BoxContext);
+  const { boxes, setBoxes, getAllBoxes } = useContext(BoxContext);
+  const { id } = useParams();
 
   useEffect(() => {
-    getAllBoxes();
+    getAllBoxes(id).then(setBoxes);
   }, []);
 
   return (
@@ -16,13 +18,18 @@ const BoxList = () => {
       <div className="row justify-content-center">
         <div className="cards-column">
           {boxes.map((box) => {
-            return <Box key={box.id} box={Box} />;
+            return <Box key={box.id} box={box} />;
           })}
         </div>
       </div>
       <Button>
-        <Link className="a" to={`/box/create/`}>
+        <Link className="a" to={`/box/${id}/create/`}>
           Create New Box
+        </Link>
+      </Button>
+      <Button className="b">
+        <Link className="a" to={`/move/${id}`}>
+          Go Back To Move
         </Link>
       </Button>
       <Button>

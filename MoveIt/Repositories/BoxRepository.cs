@@ -89,11 +89,11 @@ namespace MoveIt.Repositories
                     cmd.CommandText = @"
                                      INSERT INTO Box (BoxName, MoveId)
                                         OUTPUT INSERTED.ID
-                                     VALUES (@boxName, @moveId";
+                                     VALUES (@boxName, @moveId)";
 
 
                     DbUtils.AddParameter(cmd, "@boxName", box.BoxName);
-                    DbUtils.AddParameter(cmd, "@moveId", box.move.Id);
+                    DbUtils.AddParameter(cmd, "@moveId", box.MoveId);
 
                     box.Id = (int)cmd.ExecuteScalar();
                 }

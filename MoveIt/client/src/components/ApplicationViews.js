@@ -22,9 +22,12 @@ import PriorityForm from "./Priority/PriorityDetails";
 import PriorityDelete from "./Priority/PriorityDelete";
 // Box Imports
 import BoxList from "./Box/BoxList";
+import BoxForm from "./Box/BoxForm";
+import BoxDelete from "./Box/BoxDelete";
 // Item Imports
 import ItemList from "./Item/ItemList";
 import ItemForm from "./Item/ItemForm";
+import ItemDelete from "./Item/ItemDelete";
 
 import Login from "./Login/Login";
 import Register from "./Login/Register";
@@ -112,17 +115,17 @@ export default function ApplicationViews() {
           <PriorityDelete />
         </Route>
 
-        <Route path="/box" exact>
+        <Route path="/box/:id" exact>
           <BoxList />
         </Route>
 
-        {/* <Route path="/box/create" exact>
+        <Route path="/box/:id/create" exact>
           <BoxForm />
         </Route>
 
         <Route path="/box/edit/:id(\d+)" exact>
           <BoxForm />
-        </Route> */}
+        </Route>
 
         <Route path="/item/:id" exact>
           <ItemList />
@@ -134,6 +137,14 @@ export default function ApplicationViews() {
 
         <Route path="/box/item/:id(\d+)" exact>
           <ItemForm />
+        </Route>
+
+        <Route path="/box/delete/:id(\d+)/:moveId(\d+)" exact>
+          <BoxDelete />
+        </Route>
+
+        <Route path="/item/delete/:id(\d+)/:moveId(\d+)" exact>
+          <ItemDelete />
         </Route>
       </Switch>
     </main>

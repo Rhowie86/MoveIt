@@ -11,25 +11,27 @@ import {
   ModalBody,
   ModalHeader,
   ModalFooter,
-  ButtonGroup,
 } from "reactstrap";
-
+import AreaForm from "../Area/AreaForm";
 import { ItemContext } from "../../providers/ItemProvider";
+import { MoveContext } from "../../providers/MoveProvider";
 import { BoxContext } from "../../providers/BoxProvider";
 import { AreaContext } from "../../providers/AreaProvider";
 import { PriorityContext } from "../../providers/PriorityProvider";
 import { useHistory, useParams, Link } from "react-router-dom";
-import { ToggleButton } from "react-bootstrap";
 
 const ItemForm = () => {
   const { addItem, editItem, getItem } = useContext(ItemContext);
   const { addBox, editBox, getAllBoxes } = useContext(BoxContext);
-  const { addArea, editArea, getAllAreas } = useContext(AreaContext);
+  const { addArea, editArea, getAreaByUser } = useContext(AreaContext);
+  const { getMove } = useContext(MoveContext);
   const { getAllPriorities } = useContext(PriorityContext);
+  const [move, setMove] = useState(null);
   const [boxes, setBoxes] = useState([]);
   const [areas, setAreas] = useState([]);
   const [priorities, setPriorities] = useState([]);
   const [checked, setChecked] = useState(false);
+  const [visible, setVisible] = useState(false);
 
   const [modal, setModal] = useState(false);
   const toggleModal = () => setModal(!modal);
@@ -42,7 +44,9 @@ const ItemForm = () => {
   useEffect(() => {
     getAllBoxes(id)
       .then(setBoxes)
-      .then(() => getAllAreas())
+      //   .then(() => getAllAreas())
+      //   .then(setAreas)
+      .then(getAreaByUser)
       .then(setAreas)
       .then(() => getAllPriorities())
       .then(setPriorities);
@@ -59,50 +63,50 @@ const ItemForm = () => {
     PriorityId: 0,
   });
 
-  const [itemName, setItemName] = useState("");
-  const [boxId, setBoxId] = useState(0);
-  const [ItemAreaId, setItemAreaId] = useState(0);
-  const [isLoaded, setIsLoaded] = useState(false);
-  const [userId, setUserId] = useState(0);
-  const [moveId, setMoveId] = useState(0);
-  const [priorityId, setPriorityId] = useState(0);
+  const handleInputChange = (event) => {
+    const newItem = { ...item };
+    let selectedVal = event.target.value;
+    if (event.target.id.includes("id")) {
+      selectedVal = parseInt(selectedVal);
+    }
+    newItem[event.target.id] = selectedVal;
+    setItem(newItem);
+  };
 
-  //   const saveItem = () => {
-  //       if(id){
-  //           const newItem = {
-  //               ...item
-  //           }
-  //           newItem.Id = id
-  //           newItem.ItemName = ""
-  //       }
-  //   }
-
-  const resetForm = () => {
-    setItemName("");
-    setBoxId(null);
-    setItemAreaId(0);
-    setUserId(0);
-    setMoveId(0);
-    setPriorityId(0);
-    toggleModal();
+  const handleClick = (e) => {
+    const newItem = { ...item };
+    newItem.IsLoaded = e.target.checked;
+    setItem(newItem);
   };
 
   const submit = () => {
     const newItem = {
-      ItemName: itemName,
-      BoxId: bodId,
-      ItemAreaId: ItemAreaId,
-      IsLoaded: isLoaded,
-
+      ItemName: item.ItemName,
+      BoxId: item.BoxId,
+      ItemAreaId: item.ItemAreaId,
+      IsLoaded: item.IsLoaded,
       MoveId: id,
-      PriorityId: priorityId,
+      PriorityId: item.PriorityId,
     };
 
-    addItem(newItem).then(setItem);
+    addItem(newItem).then(() => history.push(`/item/${id}`));
   };
+
+  useEffect(() => {
+    if (id) {
+      getMove(id).then((apiMove) => {
+        getAreaByUser(apiMove.userId).then(setAreas);
+      });
+    }
+  }, [id]);
 
   return (
     <main>
+      {visible ? (
+        <AreaForm visibility={setVisible} setAreas={setAreas} />
+      ) : (
+        <div></div>
+      )}
       <div className="container pt-4">
         <div className="row justify-content-center">
           <Card className="col-sm-12 col-lg-6">
@@ -112,18 +116,18 @@ const ItemForm = () => {
                   <Label for="item">Item Name</Label>
                   <Input
                     type="text"
-                    id="itemName"
-                    onChange={(e) => setItemName(e.target.value)}
-                    value={itemName}
+                    id="ItemName"
+                    onChange={handleInputChange}
+                    value={item.ItemName}
                   />
                 </FormGroup>
                 <FormGroup>
                   <Label for="boxes">
                     Box
                     <select
-                      id="boxes"
-                      onChange={(e) => setBoxId(e.target.value)}
-                      value={boxId}
+                      id="boxId"
+                      onChange={handleInputChange}
+                      value={item.boxId}
                     >
                       <option value="" selected hidden>
                         Does this go in a box?
@@ -138,11 +142,7 @@ const ItemForm = () => {
                 </FormGroup>
                 <FormGroup>
                   <Label for="itemArea">Area Label</Label>
-                  <select
-                    id="area"
-                    onChange={(e) => setItemAreaId(e.target.value)}
-                    value={ItemAreaId}
-                  >
+                  <select id="ItemAreaId" onChange={handleInputChange}>
                     <option value="" selected hidden>
                       What area label would you like to add?
                     </option>
@@ -153,12 +153,21 @@ const ItemForm = () => {
                     ))}
                   </select>
                 </FormGroup>
+
+                <Button
+                  onClick={() => {
+                    setVisible(true);
+                  }}
+                >
+                  Add an area label
+                </Button>
+
                 <FormGroup>
                   <Label for="itemArea">Priority Label</Label>
                   <select
-                    id="priority"
-                    onChange={(e) => setPriorityId(e.target.value)}
-                    value={priorityId}
+                    id="PriorityId"
+                    onChange={handleInputChange}
+                    value={item.priorityId}
                   >
                     <option value="" selected hidden>
                       What's this item's priority'?
@@ -175,12 +184,9 @@ const ItemForm = () => {
                     Is this item moved?{" "}
                     <input
                       type="checkbox"
-                      checked={checked}
-                      value="1"
-                      onChange={(e) =>
-                        setChecked(e.currentTarget.checked) &&
-                        setIsLoaded(e.target.value)
-                      }
+                      id="IsLoaded"
+                      value={item.IsLoaded}
+                      onChange={handleClick}
                     ></input>
                   </label>
                 </FormGroup>
@@ -188,29 +194,14 @@ const ItemForm = () => {
               <Button color="success" disabled={isLoading} onClick={submit}>
                 Add Item
               </Button>
+              <Button className="b">
+                <Link className="a" to={`/move/${id}`}>
+                  Go Back To Move
+                </Link>
+              </Button>
             </CardBody>
           </Card>
         </div>
-      </div>
-
-      <div>
-        <Modal isOpen={modal} toggle={toggleModal} className="modal-dialog">
-          <ModalHeader toggle={toggleModal}>Item Added</ModalHeader>
-          <ModalBody>
-            <label>Would you like to add another Item?</label>
-          </ModalBody>
-          <ModalFooter>
-            <Button className="success" onClick={resetForm}>
-              {" "}
-              Yes.{" "}
-            </Button>{" "}
-            <Button className="primary">
-              <Link className="a" to={`/move`}>
-                No.
-              </Link>
-            </Button>
-          </ModalFooter>
-        </Modal>
       </div>
     </main>
   );

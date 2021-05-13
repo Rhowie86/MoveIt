@@ -30,10 +30,11 @@ namespace MoveIt.Controllers
             return Ok(_areaRepository.GetAllAreas());
         }
 
-        [HttpGet("{userId}")]
-        public IActionResult GetByUser(int userId)
+        [HttpGet("getAreaByUserId")]
+        public IActionResult GetByUser()
         {
-            var area = _areaRepository.GetAreaByUser(userId);
+            var user = GetCurrentUser();
+            var area = _areaRepository.GetAreaByUser(user.Id);
             if ( area == null)
             {
                 return NotFound();

@@ -5,11 +5,11 @@ import { Button } from "reactstrap";
 import Item from "./Item";
 
 const ItemList = () => {
-  const { items, getAllItems } = useContext(ItemContext);
+  const { items, setItems, getAllItems } = useContext(ItemContext);
   const { id } = useParams();
-
+  console.log(items);
   useEffect(() => {
-    getAllItems(id);
+    getAllItems(id).then(setItems);
   }, []);
 
   return (
@@ -17,7 +17,14 @@ const ItemList = () => {
       <div className="row justify-content-center">
         <div className="cards-column">
           {items?.map((item) => {
-            return <Item key={item.id} item={item} />;
+            return (
+              <Item
+                key={item.id}
+                item={item}
+                // getAllItems={getAllItems}
+                moveId={id}
+              />
+            );
           })}
         </div>
       </div>

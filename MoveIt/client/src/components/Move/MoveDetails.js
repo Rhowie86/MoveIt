@@ -27,6 +27,13 @@ export const MoveDetails = () => {
               Items on this move
             </Link>
           </Button>
+
+          <Button className="b">
+            <Link className="a" to={`/box/${move.id}`}>
+              Boxes
+            </Link>
+          </Button>
+
           <Button className="b">
             <Link className="a" to={`/move/edit/${move.id}`}>
               Edit
@@ -37,13 +44,9 @@ export const MoveDetails = () => {
               Delete
             </Link>
           </Button>
+
           <Button className="b">
-            <Link className="a" to={`/item/${move.id}`}>
-              Go Back To Move
-            </Link>
-          </Button>
-          <Button className="b">
-            <Link className="a" to={`/move`}>
+            <Link className="a" to={`/`}>
               Go Home
             </Link>
           </Button>

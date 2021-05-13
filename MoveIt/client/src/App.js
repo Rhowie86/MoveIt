@@ -1,7 +1,7 @@
 import React from "react";
 import { BrowserRouter as Router } from "react-router-dom";
 import { UserProfileProvider } from "./providers/UserProfileProvider";
-// import Header from "./components/Header";
+import Header from "./components/Header.js";
 import ApplicationViews from "./components/ApplicationViews";
 import MoveProvider from "./providers/MoveProvider";
 import LocationProvider from "./providers/LocationProvider";
@@ -20,7 +20,7 @@ function App() {
               <BoxProvider>
                 <MoveProvider>
                   <ItemProvider>
-                    {/* <Header /> */}
+                    <Header />
                     <ApplicationViews />
                   </ItemProvider>
                 </MoveProvider>
