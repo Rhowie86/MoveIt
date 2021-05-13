@@ -28,6 +28,7 @@ import BoxDelete from "./Box/BoxDelete";
 import ItemList from "./Item/ItemList";
 import ItemForm from "./Item/ItemForm";
 import ItemDelete from "./Item/ItemDelete";
+import EditItemForm from "./Item/EditItem";
 
 import Login from "./Login/Login";
 import Register from "./Login/Register";
@@ -133,6 +134,10 @@ export default function ApplicationViews() {
 
         <Route path="/item/:id/create" exact>
           <ItemForm />
+        </Route>
+
+        <Route path="/item/edit/:id(\d+)/:moveId(\d+)" exact>
+          <EditItemForm />
         </Route>
 
         <Route path="/box/item/:id(\d+)" exact>

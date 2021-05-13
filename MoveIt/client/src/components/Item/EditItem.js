@@ -7,12 +7,8 @@ import {
   Label,
   Input,
   Button,
-  Modal,
-  ModalBody,
-  ModalHeader,
-  ModalFooter,
 } from "reactstrap";
-import AreaForm from "../Area/AreaForm";
+
 import { ItemContext } from "../../providers/ItemProvider";
 import { MoveContext } from "../../providers/MoveProvider";
 import { BoxContext } from "../../providers/BoxProvider";
@@ -20,7 +16,7 @@ import { AreaContext } from "../../providers/AreaProvider";
 import { PriorityContext } from "../../providers/PriorityProvider";
 import { useHistory, useParams, Link } from "react-router-dom";
 
-const ItemForm = () => {
+const EditItemForm = () => {
   const { addItem, editItem, getItem } = useContext(ItemContext);
   const { addBox, editBox, getAllBoxes } = useContext(BoxContext);
   const { addArea, editArea, getAreaByUser } = useContext(AreaContext);
@@ -30,11 +26,6 @@ const ItemForm = () => {
   const [boxes, setBoxes] = useState([]);
   const [areas, setAreas] = useState([]);
   const [priorities, setPriorities] = useState([]);
-  const [checked, setChecked] = useState(false);
-  const [visible, setVisible] = useState(false);
-
-  const [modal, setModal] = useState(false);
-  const toggleModal = () => setModal(!modal);
 
   const [isLoading, setIsLoading] = useState(false);
 
@@ -44,8 +35,10 @@ const ItemForm = () => {
   useEffect(() => {
     getAllBoxes(id)
       .then(setBoxes)
-      //   .then(() => getAllAreas())
-      //   .then(setAreas)
+      .then(() => {
+        getItem(id);
+      })
+
       .then(getAreaByUser)
       .then(setAreas)
       .then(() => getAllPriorities())
@@ -53,14 +46,14 @@ const ItemForm = () => {
   }, []);
 
   const [item, setItem] = useState({
-    Id: "",
-    ItemName: "",
-    BoxId: null,
-    ItemAreaId: 0,
-    IsLoaded: false,
-    UserId: 0,
-    MoveId: 0,
-    PriorityId: 0,
+    Id: id,
+    ItemName: item.ItemName,
+    BoxId: item.BoxId,
+    ItemAreaId: item.ItemAreaId,
+    IsLoaded: item.IsLoaded,
+    UserId: item.UserId,
+    MoveId: item.MoveId,
+    PriorityId: item.PriorityId,
   });
 
   const handleInputChange = (event) => {
@@ -89,7 +82,7 @@ const ItemForm = () => {
       PriorityId: item.PriorityId,
     };
 
-    addItem(newItem).then(() => history.push(`/item/${id}`));
+    editItem(newItem).then(() => history.push(`/item/${id}`));
   };
 
   useEffect(() => {
@@ -102,11 +95,6 @@ const ItemForm = () => {
 
   return (
     <main>
-      {visible ? (
-        <AreaForm visibility={setVisible} setAreas={setAreas} />
-      ) : (
-        <div></div>
-      )}
       <div className="container pt-4">
         <div className="row justify-content-center">
           <Card className="col-sm-12 col-lg-6">
@@ -155,14 +143,6 @@ const ItemForm = () => {
                   </select>
                 </FormGroup>
 
-                <Button
-                  onClick={() => {
-                    setVisible(true);
-                  }}
-                >
-                  Add an area label
-                </Button>
-
                 <FormGroup>
                   <Label for="itemArea">Priority Label</Label>
                   <select
@@ -207,4 +187,4 @@ const ItemForm = () => {
     </main>
   );
 };
-export default ItemForm;
+export default EditItemForm;

@@ -11,9 +11,8 @@ export const MoveForm = () => {
 
   const [move, setMove] = useState({
     Id: "",
-    Name: "",
-    UserId: 0,
-    locationName: "",
+    name: "",
+    userId: 0,
   });
 
   const saveMove = () => {
@@ -21,13 +20,11 @@ export const MoveForm = () => {
     if (moveId) {
       editMove({
         id: moveId,
-        name: move.Name,
-        locationName: move.locationName,
+        name: move.name,
       }).then(() => history.push(`/move/${moveId}`));
     } else {
       addMove({
-        name: move.Name,
-        locationName: move.locationName,
+        name: move.name,
       }).then(() => {
         history.push("/move");
       });
@@ -46,7 +43,7 @@ export const MoveForm = () => {
 
   const handleClickSaveMove = (e) => {
     e.preventDefault();
-    if (move.name === "") {
+    if (move.name === "" && move.locationName === "") {
       window.alert("Please include a name for your move");
     } else {
       addMove(move).then(() => history.push("/move"));
@@ -70,18 +67,13 @@ export const MoveForm = () => {
           </h3>
           <Label for="moveInput">New Move Name</Label>
           <Input
-            id="Name"
+            id="name"
             placeholder="Enter Move Name"
             type="text"
+            value={move.name}
             onChange={handleInputChange}
           ></Input>
-          <Label for="moveInput">Location</Label>
-          <Input
-            id="LocationName"
-            placeholder="Enter Location Name"
-            type="text"
-            onChange={handleInputChange}
-          ></Input>
+
           <Button className="a" color="info" onClick={saveMove}>
             {moveId ? <> Save Changes </> : <> Add New Move </>}
           </Button>

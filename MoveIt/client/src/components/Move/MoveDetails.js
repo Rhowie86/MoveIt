@@ -21,6 +21,7 @@ export const MoveDetails = () => {
             <p>
               <strong>{move.name}</strong>
             </p>
+            <p>{move.locationName}</p>
           </CardBody>
           <Button className="b">
             <Link className="a" to={`/item/${move.id}`}>

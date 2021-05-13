@@ -9,7 +9,7 @@ export const Home = () => {
   return (
     <>
       <Card>
-        <h1>Welcome {user.displayName}!</h1>
+        <h3 className="ml-4">Welcome {user.displayName}!</h3>
         <CardBody>
           <div>
             <Button

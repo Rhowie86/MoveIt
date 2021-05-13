@@ -107,12 +107,13 @@ namespace MoveIt.Repositories
                 using (var cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
-                        INSERT INTO Move (Name, UserId)
+                        INSERT INTO Move (Name, UserId, LocationName)
                             OUTPUT INSERTED.ID
-                        VALUES (@name, @userId);";
+                        VALUES (@name, @userId, @locationName);";
 
                     DbUtils.AddParameter(cmd, "@name", move.Name);
                     DbUtils.AddParameter(cmd, "@userId", move.UserId);
+                    DbUtils.AddParameter(cmd, "@locationName", move.LocationName);
 
                     move.Id = (int)cmd.ExecuteScalar();
 
@@ -129,11 +130,13 @@ namespace MoveIt.Repositories
                 {
                     cmd.CommandText = @"
                                 UPDATE Move
-                                    SET Name = @name
+                                    SET Name = @name,
+                                        LocationName = @locationName
                                     WHERE Id = @id;";
 
                     DbUtils.AddParameter(cmd, "@id", move.Id);
                     DbUtils.AddParameter(cmd, "@name", move.Name);
+                    DbUtils.AddParameter(cmd, "@locationName", move.LocationName);
 
                     cmd.ExecuteNonQuery();
                     
@@ -148,7 +151,11 @@ namespace MoveIt.Repositories
                 conn.Open();
                 using (var cmd = conn.CreateCommand())
                 {
-                    cmd.CommandText = "DELETE FROM Move WHERE Id = @id;";
+                    cmd.CommandText = @"DELETE i FROM ITEMS i INNER JOIN BOX b ON b.moveId = i.moveId WHERE i.moveId = @id;
+
+                                        DELETE b FROM Box b INNER JOIN Move m ON b.moveId = m.id WHERE b.moveId = @id;
+
+                                        DELETE FROM Move WHERE move.id = @id";
                     DbUtils.AddParameter(cmd, "@id", id);
                     cmd.ExecuteNonQuery();
                 }
