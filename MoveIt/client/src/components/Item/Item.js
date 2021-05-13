@@ -13,6 +13,10 @@ export const Item = ({ item, getAllItems, moveId }) => {
     }
   }, [checked]);
 
+  const boxHtml = () => {
+    return <p>{item.box.boxName}</p>;
+  };
+
   return (
     <>
       <Card className="m-4">
@@ -20,8 +24,10 @@ export const Item = ({ item, getAllItems, moveId }) => {
           <p>
             <strong>{item.itemName}</strong>
           </p>
-          <p>{item.priority.label}</p>
-          <p>{item.area.areaName}</p>
+          <p>Priority: {item.priority.label}</p>
+          <p>Area Label: {item.area.areaName}</p>
+          {item.box ? boxHtml() : null}
+
           <label for="isMoved">
             Is this item moved?{" "}
             <input

@@ -4,7 +4,7 @@ import { AreaContext } from "../../providers/AreaProvider";
 import { useHistory, useParams } from "react-router-dom";
 
 export const AreaForm = ({ visibility, setAreas }) => {
-  const { addArea, editArea, getArea, getAllAreas } = useContext(AreaContext);
+  const { addArea, getAllAreas } = useContext(AreaContext);
 
   const history = useHistory();
   const areaId = parseInt(useParams().id);

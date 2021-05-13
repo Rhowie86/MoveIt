@@ -4,12 +4,12 @@ import { useHistory } from "react-router-dom";
 
 export const Home = () => {
   const history = useHistory();
-  //   user = JSON.parse(sessionStorage.getItem("userProfile"));
+  const user = JSON.parse(sessionStorage.getItem("userProfile"));
 
   return (
     <>
       <Card>
-        <h1>Welcome!</h1>
+        <h1>Welcome {user.displayName}!</h1>
         <CardBody>
           <div>
             <Button

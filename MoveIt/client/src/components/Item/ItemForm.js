@@ -82,7 +82,7 @@ const ItemForm = () => {
   const submit = () => {
     const newItem = {
       ItemName: item.ItemName,
-      BoxId: item.BoxId,
+      BoxId: item.BoxId !== null ? parseInt(item.BoxId) : null,
       ItemAreaId: item.ItemAreaId,
       IsLoaded: item.IsLoaded,
       MoveId: id,
@@ -125,9 +125,9 @@ const ItemForm = () => {
                   <Label for="boxes">
                     Box
                     <select
-                      id="boxId"
+                      id="BoxId"
                       onChange={handleInputChange}
-                      value={item.boxId}
+                      value={item.BoxId}
                     >
                       <option value="" selected hidden>
                         Does this go in a box?
@@ -140,6 +140,7 @@ const ItemForm = () => {
                     </select>
                   </Label>
                 </FormGroup>
+
                 <FormGroup>
                   <Label for="itemArea">Area Label</Label>
                   <select id="ItemAreaId" onChange={handleInputChange}>

@@ -14,14 +14,7 @@ const BoxList = () => {
   }, []);
 
   return (
-    <div className="container">
-      <div className="row justify-content-center">
-        <div className="cards-column">
-          {boxes.map((box) => {
-            return <Box key={box.id} box={box} />;
-          })}
-        </div>
-      </div>
+    <div>
       <Button>
         <Link className="a" to={`/box/${id}/create/`}>
           Create New Box
@@ -37,6 +30,15 @@ const BoxList = () => {
           Go Home
         </Link>
       </Button>
+      <div className="container">
+        <div className="row justify-content-center">
+          <div className="cards-column">
+            {boxes.map((box) => {
+              return <Box key={box.id} box={box} />;
+            })}
+          </div>
+        </div>
+      </div>
     </div>
   );
 };

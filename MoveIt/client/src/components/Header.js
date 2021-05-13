@@ -32,27 +32,8 @@ const Header = () => {
                 <NavLink tag={RRNavLink} to="/">
                   Home
                 </NavLink>
-                <NavLink tag={RRNavLink} to="/">
+                <NavLink tag={RRNavLink} to="/move">
                   My Moves
-                </NavLink>
-                <NavLink tag={RRNavLink} to="/myPosts">
-                  My Posts
-                </NavLink>
-                <NavLink tag={RRNavLink} to="/category">
-                  Categories
-                </NavLink>
-                <NavLink tag={RRNavLink} to="/post/add">
-                  Add Post
-                </NavLink>
-              </NavItem>
-            )}
-            {isLoggedIn && userProfile.userTypeId == 1 && (
-              <NavItem className="nav-items">
-                <NavLink tag={RRNavLink} to="/tag">
-                  Tag Management
-                </NavLink>
-                <NavLink tag={RRNavLink} to="/userProfiles">
-                  User Profiles
                 </NavLink>
               </NavItem>
             )}

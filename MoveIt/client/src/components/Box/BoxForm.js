@@ -4,7 +4,7 @@ import { BoxContext } from "../../providers/BoxProvider";
 import { useHistory, useParams } from "react-router-dom";
 
 const BoxForm = () => {
-  const { addBox, editBox, getBox } = useContext(BoxContext);
+  const { addBox, getBox } = useContext(BoxContext);
 
   const history = useHistory();
   const boxId = parseInt(useParams().id);
@@ -16,13 +16,6 @@ const BoxForm = () => {
   });
 
   const saveBox = () => {
-    // if (boxId) {
-    //   editBox({
-    //     id: box.Id,
-    //     boxName: box.boxName,
-    //     moveId: box.moveId,
-    //   }).then(() => history.push(`/box/${boxId}`));
-    // } else {
     addBox({
       boxName: box.boxName,
       moveId: boxId,
@@ -63,9 +56,7 @@ const BoxForm = () => {
     <>
       <div>
         <Form className="addBoxDiv" onSubmit={handleClickSaveBox}>
-          <h3 className="BoxForm_title">
-            {boxId ? <> Edit Box Name </> : <> New Box </>}
-          </h3>
+          <h3 className="BoxForm_title">Add A Box</h3>
           <Label for="boxInput">New Box Name</Label>
           <Input
             id="boxName"

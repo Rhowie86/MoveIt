@@ -2,6 +2,7 @@ import React, { useEffect, useState, useContext } from "react";
 import { Card, CardImg, CardBody, Button } from "reactstrap";
 import { Link } from "react-router-dom";
 import { ItemContext } from "../../providers/ItemProvider";
+import Item from "../Item/Item";
 
 export const Box = ({ box }) => {
   //   const [boxItems, setBoxItems] = useState(box.boxId);
@@ -9,9 +10,6 @@ export const Box = ({ box }) => {
 
   useEffect(() => {
     getBoxItems(box.id).then(setItems);
-  }, []);
-  useEffect(() => {
-    console.log(box.id);
   }, []);
 
   return (
@@ -21,7 +19,11 @@ export const Box = ({ box }) => {
           <p>
             <strong>{box.boxName}</strong>
           </p>
-          <div></div>
+          <div>
+            {items?.map((item) => {
+              return <Item Key={item.id} item={item} />;
+            })}
+          </div>
           <Button>
             <Link className="a" to={`/box/edit/${box.id}`}>
               Edit Box Label

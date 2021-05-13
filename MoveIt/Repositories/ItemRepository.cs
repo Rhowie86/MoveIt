@@ -22,13 +22,13 @@ namespace MoveIt.Repositories
                     cmd.CommandText = @"
                                      SELECT i.Id, i.itemName, i.boxId, i.ItemAreaId, i.itemImage, i.isLoaded, i.userId, i.moveId, i.priorityId,
                                             m.Id, m.name, m.userId,
-                                            b.id, b.boxName, b.moveId,
+                                            b.Id, b.boxName, b.moveId,
                                             p.id, p.label,
                                             a.id, a.areaName, a.userId,
                                             u.Id, u.FirebaseUserId, u.DisplayName
                                         FROM Items i
                                      LEFT JOIN Move m ON i.moveId = m.id
-                                     LEFT JOIN Box b ON b.moveId = i.moveId
+                                     LEFT JOIN Box b ON i.boxId = b.id
                                      LEFT JOIN Priority p ON p.id = i.priorityId
                                      LEFT JOIN Area a ON a.id = i.itemAreaId
                                      LEFT JOIN UserProfile u ON u.id = m.userId
@@ -219,7 +219,7 @@ namespace MoveIt.Repositories
                                             u.Id, u.FirebaseUserId, u.DisplayName
                                         FROM Items i
                                      LEFT JOIN Move m ON i.moveId = m.id
-                                     LEFT JOIN Box b ON b.moveId = i.moveId
+                                     LEFT JOIN Box b ON b.id = i.boxId
                                      LEFT JOIN Priority p ON p.id = i.priorityId
                                      LEFT JOIN Area a ON a.id = i.itemAreaId
                                      LEFT JOIN UserProfile u ON u.id = m.userId
